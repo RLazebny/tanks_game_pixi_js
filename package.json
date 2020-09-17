@@ -1,0 +1,43 @@
+{
+  "name": "tanks_game",
+  "version": "0.0.1",
+  "description": "test_pixi_game",
+  "main": "index.js",
+  "dependencies": {
+    "pixi.js": "^5.3.3",
+    "signals": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.159",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.4.1",
+    "lodash": "^4.17.20",
+    "ts-loader": "5.3.0",
+    "tslint": "5.12.0",
+    "typescript": "^3.7.5",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1",
+    "webpack-merge": "^4.2.2"
+  },
+  "scripts": {
+    "test": "serve",
+    "build": "webpack",
+    "serve": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RLazebny/tanks_game_pixi_js.git"
+  },
+  "keywords": [
+    "tanks",
+    "game",
+    "pixi"
+  ],
+  "author": "Roman Lazebnyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RLazebny/tanks_game_pixi_js/issues"
+  },
+  "homepage": "https://github.com/RLazebny/tanks_game_pixi_js#readme"
+}
