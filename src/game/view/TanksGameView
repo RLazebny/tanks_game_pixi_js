@@ -1,0 +1,31 @@
+import * as PIXI from "pixi.js";
+import {TanksGameAbstractView} from "./TanksGameAbstractView";
+import Application = PIXI.Application;
+
+export class TanksGameView extends TanksGameAbstractView{
+	public app: PIXI.Application;
+	public width: number = 1080;
+	public height: number = 600;
+	private _node: HTMLElement;
+	private _app: Application;
+
+	constructor(width, height) {
+		super();
+		// this.app = app;
+		this.app.stage.interactive = true;
+		this.app.view.width = width;
+		this.app.view.height = height;
+	}
+
+	public drawTemplate(): void {
+		this._app = new Application({
+			width       : this.width,
+			height      : this.height,
+			transparent : true
+		});
+		// this._app.stage.addChild(this.background);
+		// this._app.stage.addChild(this.content);
+		this._node = document.createElement("div");
+		this._node.appendChild(this._app.view);
+	}
+}
