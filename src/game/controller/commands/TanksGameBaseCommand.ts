@@ -1,4 +1,3 @@
-import {AbstractCommand} from "../../../core/mvc/implementations/AbstractCommand";
 import {ITanksGameModel} from "../../interfaces/ITanksGameModel";
 import {ITanksGameView} from "../../interfaces/ITanksGameView";
 

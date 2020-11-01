@@ -1,25 +1,28 @@
 import * as PIXI from "pixi.js";
+import {IResourceDictionary, Loader} from "pixi.js";
+import {Signal} from "signals";
 import {ITanksGameModel} from "../interfaces/ITanksGameModel";
 
 export class TanksGameModel implements ITanksGameModel {
+	public onResourcesLoad: Signal = new Signal();
  	public width: number;
  	public height: number;
-	public loader: PIXI.Loader;
+	public loader: Loader;
+	public _resources: IResourceDictionary;
+	public htmlParentElement: HTMLElement;
 
 	constructor() {
-		this.loadResources();
+		console.log("pixi: ", PIXI);
+		this.loader = new PIXI.Loader();
 	}
 
-	public loadResources(): void {
-		this.loader.add();
-
-		this.loader.load();
+	public get resources(): IResourceDictionary {
+		return this.loader.resources;
 	}
 
-	private static createResourceList(): Array<string> {
-		let resourcesList: Array<string>;
-		// need add method for load resources
-
-		return resourcesList;
+	public setResources(): void {
+		this._resources = this.loader.resources;
+		this.onResourcesLoad.dispatch();
 	}
+
 }

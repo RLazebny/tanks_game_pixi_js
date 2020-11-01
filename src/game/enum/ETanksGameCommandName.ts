@@ -1,0 +1,4 @@
+export enum ETanksGameCommandName {
+	DRAW_START_SCREEN = "DRAW_START_SCREEN",
+	LOAD_RESOURCES = "LOAD_RESOURCES"
+}

@@ -13,7 +13,7 @@
     "no-reference"            : false,
     "max-line-length": [true,  {
       "ignore-pattern": "import",
-      "limit": 120
+      "limit": 150
     }],
     "no-internal-module"      : false,
     "trailing-comma"          : [ true, { "multiline" : "never", "singleline": "never" } ],
@@ -81,14 +81,11 @@
     "align": true,
     "no-bitwise": false,
     "forin": false,
-    "interface-over-type-literal": false
+    "interface-over-type-literal": false,
+    "no-console": false
   },
   "rulesDirectory" : [],
   "linterOptions": {
-    "exclude": [
-      "./package.json",
-      "./src/template/package.json",
-      "./src/template/core/package.json"
-    ]
+    "exclude": ["./package.json"]
   }
 }
