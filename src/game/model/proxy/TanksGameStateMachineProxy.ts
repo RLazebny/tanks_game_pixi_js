@@ -51,4 +51,8 @@ export class TanksGameStateMachineProxy {
       this.onStateChanged.dispatch();
     }
   }
+
+  public allStates(): void {
+    console.log("all states: ", this._stateMachine.states);
+  }
 }

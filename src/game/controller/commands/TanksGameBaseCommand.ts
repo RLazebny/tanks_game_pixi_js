@@ -18,13 +18,6 @@ export class TanksGameBaseCommand {
 	/**
 	 * @inheritDoc
 	 */
-	public get IsStayInMemory(): boolean {
-		return true;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	protected get view(): ITanksGameView {
 		return this._view;
 	}

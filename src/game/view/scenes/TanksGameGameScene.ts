@@ -1,33 +1,32 @@
-import {find} from "lodash";
-import {Container} from "pixi.js";
+import * as PIXI from "pixi.js";
 import {ETanksGameScenesName} from "../../enum/ETanksGameScenesName";
-import {IScene} from "../../interfaces/IScene";
+import {ILayer} from "../../interfaces/ILayer";
+import {TanksGameTanksLayer} from "./layers/TanksGameTanksLayer";
+import {TanksGameTextureLayer} from "./layers/TanksGameTextureLayer";
+import {TanksGameBaseScene} from "./TanksGameBaseScene";
 
-export class TanksGameGameScene implements IScene {
-	public display: Container;
-	public layers: [];
-	public name: string;
+export class TanksGameGameScene extends TanksGameBaseScene {
 
 	constructor() {
+		super();
 		this.name = ETanksGameScenesName.GAME;
-		this.display = new Container();
-		this.display.visible = false;
-		this.display.name = "MainGameScene";
-		this.layers = [];
+		this.display.name = "[Game Scene]";
 		this.initLayers();
 	}
 
-	public dispose(): void {
-		this.display.removeChildren();
-		this.layers.length = 0;
-	}
-
-	public getLayer(name: string): any {
-		return find(this.layers, (layer: any) => {
-			return layer.name === name;
-		});
-	}
-
 	private initLayers(): void {
+		this.addLayer(
+			"Textures layer",
+			new TanksGameTextureLayer()
+		);
+		this.addLayer(
+			"Tanks layer",
+			new TanksGameTanksLayer()
+		);
+	}
+
+	private addLayer(name: string, layer: ILayer): void {
+		this.layers.push({ name: name, layer: layer});
+		this.display.addChild(layer.display);
 	}
 }

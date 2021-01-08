@@ -1,36 +1,40 @@
-import {Container, Text} from "pixi.js";
+import * as PIXI from "pixi.js";
+import {Text, TextStyle} from "pixi.js";
 import {ETanksGameScenesName} from "../../enum/ETanksGameScenesName";
-import {IScene} from "../../interfaces/IScene";
-import TextStyle = PIXI.TextStyle;
+import {ILayer} from "../../interfaces/ILayer";
+import {TanksGameMenuButtonsLayer} from "./layers/TanksGameMenuButtonsLayer";
+import {TanksGameBaseScene} from "./TanksGameBaseScene";
 
-export class TanksGameMenuScene implements IScene {
-	public display: Container;
-	public layers: [];
-	public name: string;
+export class TanksGameMenuScene extends TanksGameBaseScene {
 
 	constructor() {
+		super();
 		this.name = ETanksGameScenesName.MENU;
-		this.display = new Container();
-		this.display.visible = false;
-		this.display.name = "TanksGameMenuScene";
-		this.layers = [];
+		this.display.name = "[Menu Scene]";
+		this.initLayers();
 
 		const style = new TextStyle({
-		  fontFamily: "Arial",
-		  fontSize: 36,
-		  fontStyle: "italic",
-		  fontWeight: "bold",
-		  fill: ["#ffffff"],
+		  fontFamily: "Times new Roman",
+		  fontSize: 56,
+		  fill: "#fff",
 		  wordWrap: true,
 		  wordWrapWidth: 440
 		});
-		const loadingText: Text = new Text("Tanks Game", style);
+		const loadingText: Text = new Text("Tank Game", style);
 		loadingText.anchor.set(0.5);
+		loadingText.position.y = -200;
 		this.display.addChild(loadingText);
 	}
 
-	public dispose(): void {
-		this.display.removeChildren();
-		this.layers.length = 0;
+	private initLayers(): void {
+		this.addLayer(
+			"MenuButtons layer",
+			new TanksGameMenuButtonsLayer()
+		);
+	}
+
+	private addLayer(name: string, layer: ILayer): void {
+		this.layers.push({ name: name, layer: layer});
+		this.display.addChild(layer.display);
 	}
 }

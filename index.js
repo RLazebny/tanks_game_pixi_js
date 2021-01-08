@@ -11,7 +11,6 @@ window.onload = () => {
     app.stage.addChild(container);
 
 // Create a new texture
-    const texture = PIXI.Texture.from('./tank.png');
     const bgImg = PIXI.Texture.from('./src1.png');
     const background = new PIXI.Sprite(bgImg);
 

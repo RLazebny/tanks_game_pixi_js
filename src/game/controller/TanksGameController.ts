@@ -5,18 +5,13 @@ import {TanksGameContext} from "../TanksGameContext";
 type TFunctionMap = {
 	[id: string]: Function;
 };
-export type TCommandMap = {
-	[id: string]: ICommand;
-};
 
 export class TanksGameController {
 	private _commandMap: TFunctionMap;
-	private _commandsInMemory: TCommandMap;
 	private _context: TanksGameContext;
 
 	constructor(context: TanksGameContext) {
 		this._commandMap = {};
-		this._commandsInMemory = {};
 		this._context = context;
 	}
 
@@ -39,9 +34,6 @@ export class TanksGameController {
 		return !isNil(this._commandMap[name]);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public executeCommand(name: string): void {
 		if (!this.hasCommand(name)) {
 			throw new Error("Error execute not registered command.");
@@ -49,9 +41,6 @@ export class TanksGameController {
 		let cmd: ICommand;
 		let cmdConstructor: any = this._commandMap[name];
 		cmd = new cmdConstructor(this.context.getModel, this.context.getView);
-		if (cmd.IsStayInMemory) {
-			this._commandsInMemory[name] = cmd;
-		}
 		cmd.execute();
 	}
 }
