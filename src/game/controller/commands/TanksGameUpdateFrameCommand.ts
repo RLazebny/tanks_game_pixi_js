@@ -72,43 +72,40 @@ export class TanksGameUpdateFrameCommand extends TanksGameBaseCommand {
 	private updatePosition(tank: Sprite): void {
 		switch (tank.angle) {
 			case ETanksGameStaticValues.ROTATION_LEFT:
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					tank.angle,
-					tank.position,
-					this.textureLayer.textures)
-				) {
-					tank.position.x -= 1;
+				if (!this.checkCollisions(tank)) {
+					tank.position.x -= 2;
 				}
 				break;
 			case ETanksGameStaticValues.ROTATION_RIGHT:
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					tank.angle,
-					tank.position,
-					this.textureLayer.textures)
-				) {
-					tank.position.x += 1;
+				if (!this.checkCollisions(tank)) {
+					tank.position.x += 2;
 				}
 				break;
 			case ETanksGameStaticValues.ROTATION_UP:
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					tank.angle,
-					tank.position,
-					this.textureLayer.textures)
-				) {
-					tank.position.y -= 1;
+				if (this.checkCollisions(tank)) {
+					tank.position.y -= 2;
 				}
 				break;
 			case ETanksGameStaticValues.ROTATION_DOWN:
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					tank.angle,
-					tank.position,
-					this.textureLayer.textures)
-				) {
-					tank.position.y += 1;
+				if (!this.checkCollisions(tank)) {
+					tank.position.y += 2;
 				}
 				break;
 		}
 	}
+
+	private checkCollisions(tank: Sprite): boolean {
+		let isCollision: boolean = false;
+		if (TanksGameCollisionUtil.checkTextureCollision(tank.angle, tank.position, this.textureLayer.textures)) {
+			return isCollision = true;
+		} else {
+			if (TanksGameCollisionUtil.checkCollisionWithTanks(tank.angle, tank.position, this.tanksLayer._tanksField)) {
+				return isCollision = true;
+			}
+		}
+		return isCollision;
+	}
+
 	private isBotName(name: string): boolean {
 		return name === ETanksGameCommonName.BOT_TANK_BLUE
 			|| name === ETanksGameCommonName.BOT_TANK_WHITE

@@ -18,40 +18,25 @@ export class TanksGameAddUIEventListenersCommand extends TanksGameBaseCommand {
 			if (event.code === ETanksGameStaticValues.KEY_A) {
 				// Move ('left');
 				this.tanksLayer.usersTank.angle = ETanksGameStaticValues.ROTATION_LEFT;
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					this.tanksLayer.usersTank.angle,
-					this.tanksLayer.usersTank.position,
-					this.textureLayer.textures)) {
+				if (!this.checkCollisions(this.tanksLayer.usersTank)) {
 						this.tanksLayer.usersTank.position.x -= 2;
 				}
 			} else if (event.code === ETanksGameStaticValues.KEY_D) {
 				// Move ('right');
 				this.tanksLayer.usersTank.angle = ETanksGameStaticValues.ROTATION_RIGHT;
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					this.tanksLayer.usersTank.angle,
-					this.tanksLayer.usersTank.position,
-					this.textureLayer.textures)
-				) {
+				if (!this.checkCollisions(this.tanksLayer.usersTank)) {
 					this.tanksLayer.usersTank.position.x += 2;
 				}
 			} else if (event.code === ETanksGameStaticValues.KEY_W) {
 				// Move ('up');
 				this.tanksLayer.usersTank.angle = ETanksGameStaticValues.ROTATION_UP;
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					this.tanksLayer.usersTank.angle,
-					this.tanksLayer.usersTank.position,
-					this.textureLayer.textures)
-				) {
+				if (!this.checkCollisions(this.tanksLayer.usersTank)) {
 					this.tanksLayer.usersTank.position.y -= 2;
 				}
 			} else if (event.code === ETanksGameStaticValues.KEY_S) {
 				// Move ('down');
 				this.tanksLayer.usersTank.angle = ETanksGameStaticValues.ROTATION_DOWN;
-				if (!TanksGameCollisionUtil.checkTextureCollision(
-					this.tanksLayer.usersTank.angle,
-					this.tanksLayer.usersTank.position,
-					this.textureLayer.textures)
-				) {
+				if (!this.checkCollisions(this.tanksLayer.usersTank)) {
 					this.tanksLayer.usersTank.position.y += 2;
 				}
 			} else if (event.code === ETanksGameStaticValues.SPACE) {
@@ -76,11 +61,12 @@ export class TanksGameAddUIEventListenersCommand extends TanksGameBaseCommand {
 
 	private checkCollisions(tank: Sprite): boolean {
 		let isCollision: boolean = false;
-		if (!TanksGameCollisionUtil.checkTextureCollision(tank.angle, tank.position, this.textureLayer.textures)) {
-			isCollision = true;
-		}
-		if (!TanksGameCollisionUtil.checkCollisionWithTanks(tank.position, this.tanksLayer._tanksField)) {
-			isCollision = true;
+		if (TanksGameCollisionUtil.checkTextureCollision(tank.angle, tank.position, this.textureLayer.textures)) {
+			return isCollision = true;
+		} else {
+			if (TanksGameCollisionUtil.checkCollisionWithTanks(tank.angle, tank.position, this.tanksLayer._tanksField)) {
+				return isCollision = true;
+			}
 		}
 		return isCollision;
 	}

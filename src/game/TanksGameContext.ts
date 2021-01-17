@@ -50,7 +50,7 @@ export class TanksGameContext {
 		this._model.loader.onAssetsLoaded.add((alias: string) => {
 			if (alias === ETanksGameResourceGroupName.LOADER_BAR) {
 				this._controller.executeCommand(ETanksGameCommandName.LOAD_IMG);
-				this._controller.executeCommand(ETanksGameCommandName.LOAD_SOUNDS);
+				// this._controller.executeCommand(ETanksGameCommandName.LOAD_SOUNDS);
 			} else if (alias === ETanksGameResourceGroupName.IMG) {
 				this._view.onAssetsLoaded();
 				this._controller.executeCommand(ETanksGameCommandName.ADD_MENU_UI_LISTENERS);
