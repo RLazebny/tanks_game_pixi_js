@@ -4,6 +4,7 @@
   "description": "test_pixi_game",
   "main": "index.js",
   "dependencies": {
+    "pixi-sound": "3.0.4",
     "pixi.js": "^5.3.3",
     "signals": "^1.0.0"
   },

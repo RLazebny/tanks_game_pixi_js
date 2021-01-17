@@ -2,28 +2,31 @@ import {forEach} from "lodash";
 import {Loader} from "pixi.js";
 import {Container, Sprite} from "pixi.js";
 import gameMap from "../../../../../resources/gameMap";
+import {ETanksGameCommonName} from "../../../enum/ETanksGameCommonName";
+import {ETanksGameLayerName} from "../../../enum/ETanksGameLayerName";
 import {ETanksGameImgName} from "../../../enum/resources/ETanksGameImgName";
 import {TanksGameBaseLayer} from "./TanksGameBaseLayer";
 
 export class TanksGameTextureLayer extends TanksGameBaseLayer {
 
-	private _texture: Container;
+	public textures: Container;
 
 	constructor() {
 		super();
-		this.display.name = "TextureLayer";
-		this._texture = new Container();
-		this._texture.name = "Textures container";
+		this.display.name = ETanksGameLayerName.TEXTURE_LAYER;
+		this.textures = new Container();
+		this.textures.name = ETanksGameCommonName.TEXTURES_CONTAINER;
 	}
 
 	public onAssetsLoaded(): void {
 		this.drawMap();
+		// this.drawPlayerTank();
 		this.drawLayer();
 	}
 
 	protected drawLayer(): void {
-		this._texture.position.set(-488, -360);
-		this.display.addChild(this._texture);
+		this.textures.position.set(-488, -360);
+		this.display.addChild(this.textures);
 	}
 
 	private drawMap(): void {
@@ -71,6 +74,6 @@ export class TanksGameTextureLayer extends TanksGameBaseLayer {
 		}
 		textureEl.x = coord.x;
 		textureEl.y = coord.y;
-		this._texture.addChild(textureEl);
+		this.textures.addChild(textureEl);
 	}
 }

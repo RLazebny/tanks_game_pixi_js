@@ -2,9 +2,13 @@ import * as PIXI from "pixi.js";
 window.PIXI = PIXI;
 import {Ticker} from "pixi.js";
 import {State} from "../state_machine/State";
+import {TanksGameAddBulletToSceneCommand} from "./controller/commands/TanksGameAddBulletToSceneCommand";
+import {TanksGameAddUIEventListenersCommand} from "./controller/commands/TanksGameAddUIEventListenersCommand";
 import {TanksGameDrawStartScreenCommand} from "./controller/commands/TanksGameDrawStartScreenCommand";
 import {TanksGameLoadBootSceneResourcesCommand} from "./controller/commands/TanksGameLoadBootSceneResourcesCommand";
-import {TanksGameLoadImgCommand} from "./controller/commands/TanksGameLoadImgCommand";
+import {TanksGameLoadImgesCommand} from "./controller/commands/TanksGameLoadImgesCommand";
+import {TanksGameLoadSoundsCommand} from "./controller/commands/TanksGameLoadSoundsCommand";
+import {TanksGameUpdateFrameCommand} from "./controller/commands/TanksGameUpdateFrameCommand";
 import {TanksGameUpdateSceneCommand} from "./controller/commands/TanksGameUpdateSceneCommand";
 import {TanksGameController} from "./controller/TanksGameController";
 import {ETanksGameCommandName} from "./enum/ETanksGameCommandName";
@@ -21,7 +25,15 @@ export class TanksGameContext {
 	protected _controller: ITanksGameController;
 	protected _view: ITanksGameView;
 	protected _model: ITanksGameModel;
-	private _ticker: Ticker;
+	protected _ticker: Ticker;
+
+	public get getModel(): TanksGameModel {
+		return this._model;
+	}
+
+	public get getView(): TanksGameView {
+		return this._view;
+	}
 
 	constructor() {
 		this.createController();
@@ -31,15 +43,18 @@ export class TanksGameContext {
 		this.registerEventListeners();
 		this.loadBootSceneResources();
 		this.registerStates();
+		this.createTicker();
 	}
 
 	public registerEventListeners(): void {
 		this._model.loader.onAssetsLoaded.add((alias: string) => {
 			if (alias === ETanksGameResourceGroupName.LOADER_BAR) {
 				this._controller.executeCommand(ETanksGameCommandName.LOAD_IMG);
+				this._controller.executeCommand(ETanksGameCommandName.LOAD_SOUNDS);
 			} else if (alias === ETanksGameResourceGroupName.IMG) {
 				this._view.onAssetsLoaded();
-				this._model.stateMachine.changeState(ETanksGameScenesName.GAME);
+				this._controller.executeCommand(ETanksGameCommandName.ADD_MENU_UI_LISTENERS);
+				this._model.stateMachine.changeState(ETanksGameScenesName.MENU);
 			}
 		});
 		this._model.loader.onLoaderInProgress.add((progress: number) => {
@@ -48,6 +63,15 @@ export class TanksGameContext {
 		this._model.stateMachine.onStateChanged.add(() => {
 			this._controller.executeCommand(ETanksGameCommandName.UPDATE_SCENE);
 		});
+		this._model.onTankFired.add(() => {
+			this._controller.executeCommand(ETanksGameCommandName.ADD_BULLET_TO_SCENE);
+		});
+	}
+	
+	public enterFrameUpdate(deltaTime: number): void {
+		this._model.deltaTime = deltaTime;
+		this._model.timeCounter++;
+		this._controller.executeCommand(ETanksGameCommandName.FRAME_UPDATE);
 	}
 
 	protected createModel(): void {
@@ -58,12 +82,10 @@ export class TanksGameContext {
 		this._view = new TanksGameView(this._model.width, this._model.height);
 	}
 
-	public get getModel(): TanksGameModel {
-		return this._model;
-	}
-
-	public get getView(): TanksGameView {
-		return this._view;
+	protected createTicker(): void {
+		this._ticker = Ticker.shared;
+		this._ticker.add(this.enterFrameUpdate, this, PIXI.UPDATE_PRIORITY.LOW);
+		this._ticker.start();
 	}
 
 	protected createController(): void {
@@ -72,9 +94,13 @@ export class TanksGameContext {
 
 	protected registerCommands(): void {
 		this._controller.registerCommand(ETanksGameCommandName.LOAD_BOOT_RESOURCES, TanksGameLoadBootSceneResourcesCommand);
-		this._controller.registerCommand(ETanksGameCommandName.LOAD_IMG, TanksGameLoadImgCommand);
+		this._controller.registerCommand(ETanksGameCommandName.LOAD_IMG, TanksGameLoadImgesCommand);
+		this._controller.registerCommand(ETanksGameCommandName.LOAD_SOUNDS, TanksGameLoadSoundsCommand);
 		this._controller.registerCommand(ETanksGameCommandName.DRAW_START_SCREEN, TanksGameDrawStartScreenCommand);
 		this._controller.registerCommand(ETanksGameCommandName.UPDATE_SCENE, TanksGameUpdateSceneCommand);
+		this._controller.registerCommand(ETanksGameCommandName.ADD_MENU_UI_LISTENERS, TanksGameAddUIEventListenersCommand);
+		this._controller.registerCommand(ETanksGameCommandName.FRAME_UPDATE, TanksGameUpdateFrameCommand);
+		this._controller.registerCommand(ETanksGameCommandName.ADD_BULLET_TO_SCENE, TanksGameAddBulletToSceneCommand);
 	}
 
 	private registerStates(): void {

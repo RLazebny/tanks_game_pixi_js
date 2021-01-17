@@ -3,35 +3,18 @@ import {ETanksGameResourceGroupName} from "../../enum/resources/ETanksGameResour
 import {TAssetFile} from "../../type/TAssetFile";
 import {TAssetFileGroup} from "../../type/TAssetFileGroup";
 import imgResourcesConfig from "./../../../../resources/imgResourcesConfig";
-import loaderConfig from "./../../../../resources/loaderConfig";
 import {TanksGameBaseCommand} from "./TanksGameBaseCommand";
 
-export class TanksGameLoadImgCommand extends TanksGameBaseCommand {
+export class TanksGameLoadImgesCommand extends TanksGameBaseCommand {
 
 	public execute(): void {
 		super.execute();
-		this.loadResources();
+		this.loadImgResources();
 	}
 
-	public loadResources(): void {
+	private loadImgResources(): void {
 		this.model.loader.load(this.createImgFileGroup());
 	}
-
-	/*private addAssetsToLoader(fileGroup: Array<TAssetFile>): void {
-		fileGroup.forEach((file: TAssetFile) => {
-			this.model.loader.add(file.name, file.path);
-		});
-	}
-	private addAssetToLoader(file: TAssetFile): void {
-		console.log("model: ", this.model);
-		this.model.loader.add(file.name, file.path);
-	}*/
-	/*protected addMandatoryAssets(files: Array<TAssetFile>): Array<TAssetFile> {
-		const skin = this._availableSkins.shift();
-		// this.model.skinNameForLoad = skin.assetsFolder;
-		// this.addAssets(skin, files);
-		return files;
-	}*/
 
 	private createImgFileGroup(): TAssetFileGroup {
 		const files: Array<TAssetFile> = [];

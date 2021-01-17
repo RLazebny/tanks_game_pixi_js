@@ -1,5 +1,6 @@
 import {each, find} from "lodash";
 import {Container} from "pixi.js";
+import {ETanksGameCommonName} from "../../enum/ETanksGameCommonName";
 import {IScene} from "../../interfaces/IScene";
 import {TTanksGameLayer} from "../../type/TTanksGameLayer";
 import Graphics = PIXI.Graphics;
@@ -22,7 +23,8 @@ export class TanksGameBaseScene implements IScene {
 		});
 	}
 
-	public getLayer(name: string): TTanksGameLayer {
+	// todo: remove 'any'
+	public getLayer(name: string): any {
 		return find(this.layers, (layer: TTanksGameLayer) => {
 			return layer.name === name;
 		});
@@ -38,8 +40,7 @@ export class TanksGameBaseScene implements IScene {
 		bg.beginFill(0x0C1621);
 		bg.drawRect(-512, -384, 1024, 768);
 		bg.endFill();
-		const bgCont: Container = new Container();
-		bgCont.addChild(bg);
-		return bgCont;
+		bg.name = ETanksGameCommonName.BACKGROUND;
+		return bg;
 	}
 }

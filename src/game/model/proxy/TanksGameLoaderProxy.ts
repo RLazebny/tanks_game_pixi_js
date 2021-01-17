@@ -8,7 +8,6 @@ import {TAssetFileGroup} from "../../type/TAssetFileGroup";
 export class TanksGameLoaderProxy {
 	public onAssetsLoaded: Signal;
 	public onLoaderInProgress: Signal;
-	public percentage: number;
 	private _loader: Loader;
 	private _alias: string;
 	private _loadingQueue: Array<TAssetFileGroup>;
@@ -25,13 +24,6 @@ export class TanksGameLoaderProxy {
 	public load(files: TAssetFileGroup): void;
 	public load(files: Array<TAssetFile>, alias?: string): void;
 	public load(files: any, alias?: string): void {
-		/*if (alias === ETanksGameResourceGroupName.LOADER) {
-			each(files, (file: TAssetFile) => {
-				this._loader.add(file.name, file.path, { crossOrigin: true, xhrType: file.type }, file.onComplete);
-			});
-			this._alias = alias;
-			this._loader.load();
-		}*/
 		if (!this._loader.loading) {
 			if (!Array.isArray(files)) {
 				alias = files.alias;
@@ -77,14 +69,5 @@ export class TanksGameLoaderProxy {
 			},
 			this
 		);
-	}
-
-	// not need
-	private loadFiles(files: Array<TAssetFile>, alias: string): void {
-		each(files, (file: TAssetFile) => {
-			this._loader.add(file.name, file.path, {crossOrigin : true, xhrType : file.type}, file.onComplete);
-		});
-		this._alias = alias;
-		this._loader.load();
 	}
 }

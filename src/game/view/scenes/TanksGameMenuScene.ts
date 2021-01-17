@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import {Text, TextStyle} from "pixi.js";
+import {ETanksGameLayerName} from "../../enum/ETanksGameLayerName";
 import {ETanksGameScenesName} from "../../enum/ETanksGameScenesName";
 import {ILayer} from "../../interfaces/ILayer";
 import {TanksGameMenuButtonsLayer} from "./layers/TanksGameMenuButtonsLayer";
@@ -28,7 +29,7 @@ export class TanksGameMenuScene extends TanksGameBaseScene {
 
 	private initLayers(): void {
 		this.addLayer(
-			"MenuButtons layer",
+			ETanksGameLayerName.MENU_BUTTONS_LAYER,
 			new TanksGameMenuButtonsLayer()
 		);
 	}

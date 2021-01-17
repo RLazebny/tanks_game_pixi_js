@@ -64,6 +64,10 @@ export class TanksGameView implements ITanksGameView {
 		this._scenes[name].display.visible = true;
 	}
 
+	public getScene(name: string): IScene {
+		return this._scenes[name];
+	}
+
 	public setBackground(resources: IResourceDictionary): void {
 		console.log("resources: ", resources);
 		const bgSprite: Sprite = Sprite.from(resources[ETanksGameImgName.TANK_RED].texture);

@@ -15,6 +15,7 @@ export interface ITanksGameView {
 	dispose(): void;
 	drawTemplate(): void;
 	addScene(scene: IScene): void;
+	getScene(name: string): IScene;
 	initContent(): void;
 	initScenes(): void;
 	onAssetsLoaded(): void;

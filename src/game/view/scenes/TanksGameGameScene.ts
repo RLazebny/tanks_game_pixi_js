@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import {ETanksGameLayerName} from "../../enum/ETanksGameLayerName";
 import {ETanksGameScenesName} from "../../enum/ETanksGameScenesName";
 import {ILayer} from "../../interfaces/ILayer";
 import {TanksGameTanksLayer} from "./layers/TanksGameTanksLayer";
@@ -16,11 +17,11 @@ export class TanksGameGameScene extends TanksGameBaseScene {
 
 	private initLayers(): void {
 		this.addLayer(
-			"Textures layer",
+			ETanksGameLayerName.TEXTURE_LAYER,
 			new TanksGameTextureLayer()
 		);
 		this.addLayer(
-			"Tanks layer",
+			ETanksGameLayerName.TANKS_LAYER,
 			new TanksGameTanksLayer()
 		);
 	}
