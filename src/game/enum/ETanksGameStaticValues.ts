@@ -10,5 +10,5 @@ export enum ETanksGameStaticValues {
 	KEY_W          = "KeyW",
 	KEY_A          = "KeyA",
 	KEY_D          = "KeyD",
-	SPACE         = "Space"
+	SPACE          = "Space"
 }

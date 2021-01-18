@@ -5,6 +5,7 @@ import {TanksGameCollisionUtil} from "../../utils/TanksGameCheckСollisionUtil";
 import {TanksGameBaseCommand} from "./TanksGameBaseCommand";
 import Sprite = PIXI.Sprite;
 
+// todo: it makes sense to split the event listeners for game items and for menu items (buttons, etc.) into 2 separate commands
 export class TanksGameAddUIEventListenersCommand extends TanksGameBaseCommand {
 
 	public execute(): void {
@@ -50,6 +51,18 @@ export class TanksGameAddUIEventListenersCommand extends TanksGameBaseCommand {
 		};
 	}
 
+	private checkCollisions(tank: Sprite): boolean {
+		let isCollision: boolean = false;
+		if (TanksGameCollisionUtil.checkTextureCollision(tank.angle, tank.position, this.textureLayer.textures)) {
+			return isCollision = true;
+		} else {
+			if (TanksGameCollisionUtil.checkCollisionWithTanks(tank.angle, tank.position, this.tanksLayer.tanksContainer)) {
+				return isCollision = true;
+			}
+		}
+		return isCollision;
+	}
+
 	private addMenuButtonsListeners(): void {
 		this.menuButtonsLayer.startButton.on(ETanksGameUIEventName.POINTER_UP, this.goToGameState.bind(this));
 		this.menuButtonsLayer.startButton.on(ETanksGameUIEventName.POINTER_OVER, this.scaleUp.bind(this, this.menuButtonsLayer.startButton));
@@ -57,18 +70,6 @@ export class TanksGameAddUIEventListenersCommand extends TanksGameBaseCommand {
 		this.menuButtonsLayer.highScoreButton.on(ETanksGameUIEventName.POINTER_UP, this.goToHighScoreState.bind(this));
 		this.menuButtonsLayer.highScoreButton.on(ETanksGameUIEventName.POINTER_OVER, this.scaleUp.bind(this, this.menuButtonsLayer.highScoreButton));
 		this.menuButtonsLayer.highScoreButton.on(ETanksGameUIEventName.POINTER_OUT, this.scaleDown.bind(this, this.menuButtonsLayer.highScoreButton));
-	}
-
-	private checkCollisions(tank: Sprite): boolean {
-		let isCollision: boolean = false;
-		if (TanksGameCollisionUtil.checkTextureCollision(tank.angle, tank.position, this.textureLayer.textures)) {
-			return isCollision = true;
-		} else {
-			if (TanksGameCollisionUtil.checkCollisionWithTanks(tank.angle, tank.position, this.tanksLayer._tanksField)) {
-				return isCollision = true;
-			}
-		}
-		return isCollision;
 	}
 
 	private goToGameState(): void {

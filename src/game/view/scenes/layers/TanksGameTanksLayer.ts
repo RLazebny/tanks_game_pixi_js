@@ -8,7 +8,7 @@ import { TanksGameBaseLayer } from "./TanksGameBaseLayer";
 
 export class TanksGameTanksLayer extends TanksGameBaseLayer {
 
-	public _tanksField: Container;
+	public tanksContainer: Container;
 	public usersTank: Sprite;
 	public botTank1: Sprite;
 	public botTank2: Sprite;
@@ -18,11 +18,11 @@ export class TanksGameTanksLayer extends TanksGameBaseLayer {
 	constructor() {
 		super();
 		this.display.name = ETanksGameLayerName.TANKS_LAYER;
-		this._tanksField = new Container();
-		this._tanksField.name = ETanksGameCommonName.TANKS_FIELD;
+		this.tanksContainer = new Container();
+		this.tanksContainer.name = ETanksGameCommonName.TANKS_FIELD;
 		this.bulletsContainer = new Container();
 		this.bulletsContainer.name = ETanksGameCommonName.BULLETS_CONTAINER;
-		this._tanksField.addChild(this.bulletsContainer);
+		this.tanksContainer.addChild(this.bulletsContainer);
 	}
 
 	public onAssetsLoaded(): void {
@@ -46,7 +46,7 @@ export class TanksGameTanksLayer extends TanksGameBaseLayer {
 		this.botTank1.anchor.set(0.5);
 		this.botTank1.angle = ETanksGameStaticValues.ROTATION_DOWN;
 		this.botTank1.position.set(startPosition1.x, startPosition1.y);
-		this._tanksField.addChild(this.botTank1);
+		this.tanksContainer.addChild(this.botTank1);
 	}
 
 	public drawBlueBotTank(): void {
@@ -56,7 +56,7 @@ export class TanksGameTanksLayer extends TanksGameBaseLayer {
 		this.botTank2.anchor.set(0.5);
 		this.botTank2.angle = ETanksGameStaticValues.ROTATION_DOWN;
 		this.botTank2.position.set(startPosition2.x, startPosition2.y);
-		this._tanksField.addChild(this.botTank2);
+		this.tanksContainer.addChild(this.botTank2);
 	}
 
 	public drawRedBotTank(): void {
@@ -66,12 +66,12 @@ export class TanksGameTanksLayer extends TanksGameBaseLayer {
 		this.botTank3.anchor.set(0.5);
 		this.botTank3.angle = ETanksGameStaticValues.ROTATION_DOWN;
 		this.botTank3.position.set(startPosition3.x, startPosition3.y);
-		this._tanksField.addChild(this.botTank3);
+		this.tanksContainer.addChild(this.botTank3);
 	}
 
 	protected drawLayer(): void {
-		this._tanksField.position.set(-488, -360);
-		this.display.addChild(this._tanksField);
+		this.tanksContainer.position.set(-488, -360);
+		this.display.addChild(this.tanksContainer);
 	}
 
 	private drawPlayerTank(): void {
@@ -80,8 +80,11 @@ export class TanksGameTanksLayer extends TanksGameBaseLayer {
 		this.usersTank.name = ETanksGameCommonName.USERS_TANK;
 		this.usersTank.anchor.set(0.5);
 		this.usersTank.position.set(startPosition.x, startPosition.y);
-		this._tanksField.addChild(this.usersTank);
+		this.tanksContainer.addChild(this.usersTank);
 	}
+
+	// todo: this part not finished, final logic for draw tanks can be changed,
+	//  make sense do tanks draw in separate command
 
 	// draw 3 start tanks
 	private drawBotTanks(): void {

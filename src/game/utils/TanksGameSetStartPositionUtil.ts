@@ -4,6 +4,7 @@ export type Coord = {
 	x: number;
 	y: number;
 };
+
 export class TanksGameSetStartPositionUtil {
 	// gameMap consists of blocks, 20 lines of 25 elements, but blocks of gameMap don't have anchor, and tanks have anchor 0,5
 

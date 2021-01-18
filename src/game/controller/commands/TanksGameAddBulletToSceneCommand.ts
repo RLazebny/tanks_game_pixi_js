@@ -15,6 +15,7 @@ export class TanksGameAddBulletToSceneCommand extends TanksGameBaseCommand {
 		this.tanksLayer.bulletsContainer.addChild(bullet);
 	}
 
+	// method below need be refactor
 	private setBulletPosition(bullet: Sprite): void {
 		bullet.position = this.model.bulletData.tankCoord;
 		switch (this.model.bulletData.vector) {

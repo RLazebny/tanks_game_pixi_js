@@ -1,5 +1,5 @@
 import {Loader} from "pixi.js";
-import {Container, Sprite} from "pixi.js";
+import {Sprite} from "pixi.js";
 import {ETanksGameCommonName} from "../../../enum/ETanksGameCommonName";
 import {ETanksGameLayerName} from "../../../enum/ETanksGameLayerName";
 import {ETanksGameImgName} from "../../../enum/resources/ETanksGameImgName";
@@ -13,10 +13,6 @@ export class TanksGameMenuButtonsLayer extends TanksGameBaseLayer {
 	constructor() {
 		super();
 		this.display.name = ETanksGameLayerName.MENU_BUTTONS_LAYER;
-		// this.startButton = new Container();
-		// this.startButton.name = ETanksGameCommonName.START_BUTTON;
-		// this.highScoreButton = new Container();
-		// this.highScoreButton.name = ETanksGameCommonName.HIGH_SCORE_BUTTON;
 	}
 
 	public dispose(): void {
@@ -35,18 +31,12 @@ export class TanksGameMenuButtonsLayer extends TanksGameBaseLayer {
 	}
 
 	private drawButtons(): void {
-		// const startBtn: Sprite = new Sprite(Loader.shared.resources[ETanksGameImgName.START_BUTTON].texture);
-		// startBtn.anchor.set(0.5);
-		// this.startButton.addChild(startBtn);
 		this.startButton = new Sprite(Loader.shared.resources[ETanksGameImgName.START_BUTTON].texture);
 		this.startButton.name = ETanksGameCommonName.START_BUTTON;
 		this.startButton.anchor.set(0.5);
 		this.startButton.interactive = true;
 		this.startButton.buttonMode = true;
 		this.startButton.position.set(0, -50);
-		// const highScoreBtn: Sprite = new Sprite(Loader.shared.resources[ETanksGameImgName.SCORES_BUTTON].texture);
-		// highScoreBtn.anchor.set(0.5);
-		// this.highScoreButton.addChild(highScoreBtn);
 		this.highScoreButton = new Sprite(Loader.shared.resources[ETanksGameImgName.SCORES_BUTTON].texture);
 		this.highScoreButton.name = ETanksGameCommonName.HIGH_SCORE_BUTTON;
 		this.highScoreButton.anchor.set(0.5);

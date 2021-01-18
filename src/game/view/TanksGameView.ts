@@ -74,10 +74,6 @@ export class TanksGameView implements ITanksGameView {
 		this._backgroundContainer.addChild(bgSprite);
 	}
 
-	// tslint:disable-next-line:jsdoc-format
-	/**
-	 * drawTemplate For test
-	 */
 	public drawTemplate(): void {
 		this.app.stage.addChild(this.background);
 		this.node = document.getElementById("canvas");

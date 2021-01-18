@@ -15,43 +15,25 @@ export class CoreBaseCommand {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	protected get view(): ITanksGameView {
 		return this._view;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	protected set view(value: ITanksGameView) {
 		this._view = value;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	protected get model(): ITanksGameModel {
 		return this._model;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	protected set model(value: ITanksGameModel) {
 		this._model = value;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public execute(): void {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public dispose(): void {
 		this._view = null;
 		this._model = null;

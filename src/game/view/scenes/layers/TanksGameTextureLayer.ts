@@ -20,7 +20,6 @@ export class TanksGameTextureLayer extends TanksGameBaseLayer {
 
 	public onAssetsLoaded(): void {
 		this.drawMap();
-		// this.drawPlayerTank();
 		this.drawLayer();
 	}
 
@@ -49,12 +48,15 @@ export class TanksGameTextureLayer extends TanksGameBaseLayer {
 		switch (textureName) {
 			case "wall":
 				textureEl = new Sprite(Loader.shared.resources[ETanksGameImgName.WALL].texture);
+				textureEl.name = ETanksGameCommonName.WALL;
 				break;
 			case "eagle":
 				textureEl = new Sprite(Loader.shared.resources[ETanksGameImgName.EAGLE].texture);
+				textureEl.name = ETanksGameCommonName.EAGLE;
 				break;
 			case "small_wall":
 				textureEl = new Container();
+				textureEl.name = ETanksGameCommonName.SMALL_WALL;
 				const smallWall1 = new Sprite(Loader.shared.resources[ETanksGameImgName.SMALL_WALL_1].texture);
 				const smallWall2 = new Sprite(Loader.shared.resources[ETanksGameImgName.SMALL_WALL_2].texture);
 				const smallWall3 = new Sprite(Loader.shared.resources[ETanksGameImgName.SMALL_WALL_3].texture);

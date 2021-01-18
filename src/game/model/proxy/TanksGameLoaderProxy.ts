@@ -1,7 +1,6 @@
 import {each} from "lodash";
 import {IResourceDictionary, Loader} from "pixi.js";
 import { Signal } from "signals";
-import {ETanksGameResourceGroupName} from "../../enum/resources/ETanksGameResourceGroupName";
 import {TAssetFile} from "../../type/TAssetFile";
 import {TAssetFileGroup} from "../../type/TAssetFileGroup";
 

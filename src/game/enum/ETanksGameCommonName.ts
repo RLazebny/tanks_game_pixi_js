@@ -11,6 +11,10 @@ export enum ETanksGameCommonName {
 	SOUNDS             = "SOUNDS",
 	SOUNDS_SPRITES     = "SOUNDS_SPRITES",
 	BOT_TANK_WHITE     = "BOT_TANK_WHITE",
-	BOT_TANK_BLUE     = "BOT_TANK_WHITE",
-	BOT_TANK_RED     = "BOT_TANK_WHITE"
+	BOT_TANK_BLUE      = "BOT_TANK_WHITE",
+	BOT_TANK_RED       = "BOT_TANK_WHITE",
+	SMALL_WALL         = "SMALL_WALL",
+	TANK               = "TANK",
+	WALL               = "WALL",
+	EAGLE              = "EAGLE"
 }

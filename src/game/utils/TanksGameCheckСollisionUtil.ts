@@ -1,11 +1,11 @@
 import {forEach} from "lodash";
-import {Container, Point, Sprite} from "pixi.js";
+import {Container, Point} from "pixi.js";
 import {ETanksGameCommonName} from "../enum/ETanksGameCommonName";
 import {ETanksGameStaticValues} from "../enum/ETanksGameStaticValues";
-import {TanksGameTanksLayer} from "../view/scenes/layers/TanksGameTanksLayer";
 
 export class TanksGameCollisionUtil {
 
+	// todo: collision calculation needs to be refactored to make it clearer
 	public static checkTextureCollision(tankRotationAngle: number, tankCoord: Point, textureField: Container): boolean {
 		let isCollision: boolean;
 		forEach(textureField.children, (texture: any) => {
@@ -100,33 +100,6 @@ export class TanksGameCollisionUtil {
 						}
 				}
 			}
-				/*if (anotherTank.position.x <= tankCoord.x - 18 &&
-					anotherTank.position.x >= tankCoord.x - 18 &&
-					anotherTank.position.y >= tankCoord.y - 18 &&
-					anotherTank.position.y <= tankCoord.y + 18) {
-					console.log("Collision with tank on left");
-					return isCollision = true;
-				} else if (
-					anotherTank.position.x <= tankCoord.x - 18 &&
-					anotherTank.position.x >= tankCoord.x - 18 &&
-					anotherTank.position.y >= tankCoord.y - 18 &&
-					anotherTank.position.y <= tankCoord.y + 18) {
-					console.log("Collision with tank on right");
-					return isCollision = true;
-				} else if (
-					anotherTank.position.y === tankCoord.y + 18 &&
-					anotherTank.position.x >= tankCoord.x - 18 &&
-					anotherTank.position.x <= tankCoord.x + 18) {
-					console.log("Collision with tank on down");
-					return isCollision = true;
-				} else if (
-					anotherTank.position.y <= tankCoord.y - 18 &&
-					anotherTank.position.y >= tankCoord.y - 18 &&
-					anotherTank.position.x >= tankCoord.x - 18 &&
-					anotherTank.position.x <= tankCoord.x + 18) {
-					console.log("Collision with tank on up");
-					return isCollision = true;
-				}*/
 		});
 		if (isCollision) {
 			return isCollision;

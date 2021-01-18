@@ -24,6 +24,8 @@ export type TCustomParameterValue = {
 	value: string | number | boolean;
 };
 
+// todo: this class not finished, need a lot of changes for correct structure
+
 export class TanksGameSoundProxy {
 	protected soundVOList: any = {};
 	protected sprites: SoundSpriteDataList = {};

@@ -53,11 +53,12 @@ export class TanksGameModel implements ITanksGameModel {
 		// }
 	}
 
-	// public set progressPercentage(percent: number) {
-	// 	this._progressPercentage = percent;
-	// }
-	//
-	// public get progressPercentage(): number {
-	// 	return this._progressPercentage;
-	// }
+	// todo: this method for view loading progress not implemented, was suspended until the last stages of development
+	/*public set progressPercentage(percent: number) {
+		this._progressPercentage = percent;
+	}
+
+	public get progressPercentage(): number {
+		return this._progressPercentage;
+	}*/
 }

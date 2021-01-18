@@ -1,3 +1,4 @@
+// todo: this part also can  be changed (perhaps needs some thought)
 export class TanksGameSoundVO {
 	/**
 	 * The sound identifier
