@@ -8,13 +8,17 @@ import {TBulletData} from "../type/TBullet";
 export interface ITanksGameModel {
 
 	onResourcesLoad: Signal;
-	onTankFired: Signal;
+	onTankAttack: Signal;
+	drawTanksSignal: Signal;
+	youWINSignal: Signal;
 	width: number;
 	height: number;
 	deltaTime: number;
 	timeCounter: number;
 	bulletData: TBulletData;
 	loader: TanksGameLoaderProxy;
+	drawnTanks: Array<string>;
+	enemiesCounter: number;
 	soundProxy: TanksGameSoundProxy;
 	stateMachine: TanksGameStateMachineProxy;
 	htmlParentElement: HTMLElement;

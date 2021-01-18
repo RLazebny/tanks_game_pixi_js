@@ -36,37 +36,40 @@ export class TanksGameTanksLayer extends TanksGameBaseLayer {
 	}
 
 	public drawEnemyBullet(): Sprite {
-		return new Sprite(Loader.shared.resources[ETanksGameImgName.BULLET].texture);
+		return new Sprite(Loader.shared.resources[ETanksGameImgName.ENEMY_BULLET].texture);
 	}
 
-	public drawWhiteBotTank(): void {
+	public drawWhiteBotTank(): Sprite {
 		const startPosition1 = TanksGameSetStartPositionUtil.botStartPosition1Coord();
-		this.botTank1 = new Sprite(Loader.shared.resources[ETanksGameImgName.TANK_WHITE].texture);
-		this.botTank1.name = ETanksGameCommonName.BOT_TANK_WHITE;
-		this.botTank1.anchor.set(0.5);
-		this.botTank1.angle = ETanksGameStaticValues.ROTATION_DOWN;
-		this.botTank1.position.set(startPosition1.x, startPosition1.y);
-		this.tanksContainer.addChild(this.botTank1);
+		const tank = new Sprite(Loader.shared.resources[ETanksGameImgName.TANK_WHITE].texture);
+		tank.name = ETanksGameCommonName.BOT_TANK_WHITE;
+		tank.anchor.set(0.5);
+		tank.angle = ETanksGameStaticValues.ROTATION_DOWN;
+		tank.position.set(startPosition1.x, startPosition1.y);
+		return tank;
+		// this.tanksContainer.addChild(this.botTank1);
 	}
 
-	public drawBlueBotTank(): void {
+	public drawBlueBotTank(): Sprite {
 		const startPosition2 = TanksGameSetStartPositionUtil.botStartPosition2Coord();
-		this.botTank2 = new Sprite(Loader.shared.resources[ETanksGameImgName.TANK_BLUE].texture);
-		this.botTank2.name = ETanksGameCommonName.BOT_TANK_BLUE;
-		this.botTank2.anchor.set(0.5);
-		this.botTank2.angle = ETanksGameStaticValues.ROTATION_DOWN;
-		this.botTank2.position.set(startPosition2.x, startPosition2.y);
-		this.tanksContainer.addChild(this.botTank2);
+		const tank = new Sprite(Loader.shared.resources[ETanksGameImgName.TANK_BLUE].texture);
+		tank.name = ETanksGameCommonName.BOT_TANK_BLUE;
+		tank.anchor.set(0.5);
+		tank.angle = ETanksGameStaticValues.ROTATION_DOWN;
+		tank.position.set(startPosition2.x, startPosition2.y);
+		return tank;
+		// this.tanksContainer.addChild(this.botTank2);
 	}
 
-	public drawRedBotTank(): void {
+	public drawRedBotTank(): Sprite {
 		const startPosition3 = TanksGameSetStartPositionUtil.botStartPosition3Coord();
-		this.botTank3 = new Sprite(Loader.shared.resources[ETanksGameImgName.TANK_RED].texture);
-		this.botTank3.name = ETanksGameCommonName.BOT_TANK_RED;
-		this.botTank3.anchor.set(0.5);
-		this.botTank3.angle = ETanksGameStaticValues.ROTATION_DOWN;
-		this.botTank3.position.set(startPosition3.x, startPosition3.y);
-		this.tanksContainer.addChild(this.botTank3);
+		const tank = new Sprite(Loader.shared.resources[ETanksGameImgName.TANK_RED].texture);
+		tank.name = ETanksGameCommonName.BOT_TANK_RED;
+		tank.anchor.set(0.5);
+		tank.angle = ETanksGameStaticValues.ROTATION_DOWN;
+		tank.position.set(startPosition3.x, startPosition3.y);
+		return tank;
+		// this.tanksContainer.addChild(this.botTank3);
 	}
 
 	protected drawLayer(): void {

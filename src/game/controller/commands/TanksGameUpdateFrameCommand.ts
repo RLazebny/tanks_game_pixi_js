@@ -8,6 +8,7 @@ import {TanksGameBaseCommand} from "./TanksGameBaseCommand";
 
 export class TanksGameUpdateFrameCommand extends TanksGameBaseCommand {
 	public execute(): void {
+		this.drawTanks();
 		this.addBotHits();
 		this.updateBulletsPositions();
 		this.checkBulletCollisions();
@@ -15,29 +16,26 @@ export class TanksGameUpdateFrameCommand extends TanksGameBaseCommand {
 		this.updateBotsPositions();
 	}
 
-	private addBotHits(): void {
-		if (this.model.timeCounter % 300 === 0) {
-			forEach(this.tanksLayer, (child) => {
-				if (this.isTankBotName(child.name)) {
-					// change bot vector
-					const vectorType = Math.floor(Math.random() * Math.floor(4));
-					switch (vectorType) {
-						case 0:
-							(child as Sprite).angle = ETanksGameStaticValues.ROTATION_LEFT;
-							break;
-						case 1:
-							(child as Sprite).angle = ETanksGameStaticValues.ROTATION_RIGHT;
-							break;
-						case 2:
-							(child as Sprite).angle = ETanksGameStaticValues.ROTATION_DOWN;
-							break;
-						case 3:
-							(child as Sprite).angle = ETanksGameStaticValues.ROTATION_UP;
-							break;
-					}
-				}
-			});
+	private drawTanks(): void {
+		if (this.model.timeCounter % 360 === 0) {
+			this.model.drawTanksSignal.dispatch();
 		}
+	}
+
+	private addBotHits(): void {
+		forEach(this.tanksLayer.tanksContainer.children, (child) => {
+			if (this.isTankBotName((child as Sprite).name)) {
+				const rate = Math.floor(Math.random() * Math.floor(5));
+				if (this.model.timeCounter % 100 + rate * 25 === 0) {
+					this.model.bulletData = {
+						vector    : (child as Sprite).angle,
+						tankCoord : (child as Sprite).position,
+						tankType  : child.name
+					};
+					this.model.onTankAttack.dispatch();
+				}
+			}
+		});
 	}
 
 	private updateBulletsPositions(): void {
@@ -62,7 +60,7 @@ export class TanksGameUpdateFrameCommand extends TanksGameBaseCommand {
 
 	private updateBotsMovementVector(): void {
 		if (this.model.timeCounter % 300 === 0) {
-			forEach(this.tanksLayer, (child) => {
+			forEach(this.tanksLayer.tanksContainer.children, (child) => {
 				if (this.isTankBotName(child.name)) {
 					// change bot vector
 					const vectorType = Math.floor(Math.random() * Math.floor(4));
@@ -87,7 +85,7 @@ export class TanksGameUpdateFrameCommand extends TanksGameBaseCommand {
 
 	private updateBotsPositions(): void {
 		if (this.model.timeCounter % 5 === 0) {
-			forEach(this.tanksLayer, (child) => {
+			forEach(this.tanksLayer.tanksContainer.children, (child) => {
 				if (this.isTankBotName(child.name)) {
 					this.updatePosition(child as Sprite);
 				}
@@ -124,74 +122,82 @@ export class TanksGameUpdateFrameCommand extends TanksGameBaseCommand {
 		let isCollision: boolean = false;
 		if (TanksGameCollisionUtil.checkTextureCollision(tank.angle, tank.position, this.textureLayer.textures)) {
 			return isCollision = true;
-		} else {
-			if (TanksGameCollisionUtil.checkCollisionWithTanks(tank.angle, tank.position, this.tanksLayer.tanksContainer)) {
-				return isCollision = true;
-			}
+		} else if (TanksGameCollisionUtil.checkCollisionWithTanks(tank.angle, tank.position,
+			this.tanksLayer.tanksContainer)) {
+			return isCollision = true;
+
 		}
 		return isCollision;
 	}
 
 	private checkBulletCollisions(): void {
-		const bulletContainer = this.tanksLayer.tanksContainer.getChildByName(ETanksGameCommonName.BULLETS_CONTAINER) as Container;
+		const bulletContainer = this.tanksLayer.tanksContainer.getChildByName(
+			ETanksGameCommonName.BULLETS_CONTAINER) as Container;
 		forEach(bulletContainer.children, (bullet, index) => {
-			this.checkBulletHitCollision(bullet as Sprite, index);
+			if (bullet) {
+				this.checkBulletHitCollision(bullet as Sprite, index);
+			}
 		});
 	}
 
 	// todo: collision calculation needs to be refactored to make it clearer
 	private checkBulletHitCollision(bullet: Sprite, bulletArrIndex: number): void {
 		// check collision with tanks
-		forEach(this.tanksLayer.tanksContainer.children, (tank: any) => {
-			if (tank.name !== ETanksGameCommonName.BULLETS_CONTAINER) {
+		forEach(this.tanksLayer.tanksContainer.children, (tank: any, index) => {
+			if (tank && tank.name !== ETanksGameCommonName.BULLETS_CONTAINER) {
 				if (tank.position.x + 18 >= bullet.position.x &&
 					tank.position.x - 18 <= bullet.position.x &&
 					tank.position.y + 18 >= bullet.position.y &&
 					tank.position.y - 18 <= bullet.position.y) {
-					this.doBulletHitEvent(bullet, bulletArrIndex, ETanksGameCommonName.TANK, tank);
+					this.doBulletHitEvent(bullet, bulletArrIndex, ETanksGameCommonName.TANK, tank, index);
 					return;
 				}
 			}
 		});
 		// check collision with textures
 		forEach(this.textureLayer.textures.children, (texture: any, index) => {
-				if (texture) {
-					if (texture.position.x + 21 >= bullet.position.x &&
-						texture.position.x - 5 <= bullet.position.x &&
-						texture.position.y + 21 >= bullet.position.y &&
-						texture.position.y - 5 <= bullet.position.y) {
-						// console.log("Collision with tank on left");
-						this.doBulletHitEvent(bullet, bulletArrIndex, texture.name, texture, index);
-						return;
-					}
+			if (texture) {
+				if (texture.position.x + 21 >= bullet.position.x &&
+					texture.position.x - 5 <= bullet.position.x &&
+					texture.position.y + 21 >= bullet.position.y &&
+					texture.position.y - 5 <= bullet.position.y) {
+					// console.log("Collision with tank on left");
+					this.doBulletHitEvent(bullet, bulletArrIndex, texture.name, texture, index);
+					return;
 				}
+			}
 		});
 	}
 
 	private doBulletHitEvent(bullet: Sprite, bulletArrIndex: number, hitType: string,
-		hitObject: Sprite | Container, textureIndex?: number): void {
-		const bulletsContainer = this.tanksLayer.tanksContainer.getChildByName(ETanksGameCommonName.BULLETS_CONTAINER) as Container;
+		hitObject: Sprite | Container, hitObjectIndex: number): void {
+		const bulletsContainer = this.tanksLayer.tanksContainer.getChildByName(
+			ETanksGameCommonName.BULLETS_CONTAINER) as Container;
 		const texturesContainer = this.textureLayer.textures;
 		switch (hitType) {
 			case ETanksGameCommonName.TANK:
 				console.log(bullet.name);
-				if (bullet.texture.textureCacheIds[0] === ETanksGameImgName.BULLET && this.isTankBotName(hitObject.name)) {
-					(hitObject as Sprite).visible = false;
+				if (bullet.texture.textureCacheIds[0] === ETanksGameImgName.BULLET &&
+					this.isTankBotName(hitObject.name)) {
+					this.tanksLayer.tanksContainer.children.splice(hitObjectIndex, 1);
+					this.model.drawnTanks.splice(this.model.drawnTanks.indexOf((hitObject as Sprite).texture.textureCacheIds[0]), 1);
 					bulletsContainer.children.splice(bulletArrIndex, 1);
-				} else if (bullet.name === ETanksGameImgName.ENEMY_BULLET && hitObject.name === ETanksGameCommonName.USERS_TANK) {
-					(hitObject as Sprite).visible = false;
+				} else if (bullet.name === ETanksGameImgName.ENEMY_BULLET && hitObject.name ===
+					ETanksGameCommonName.USERS_TANK) {
+					this.tanksLayer.tanksContainer.children.splice(hitObjectIndex, 1);
+					this.model.drawnTanks.splice(this.model.drawnTanks.indexOf((hitObject as Sprite).texture.textureCacheIds[0]), 1);
 					bulletsContainer.children.splice(bulletArrIndex, 1);
 				}
 				break;
 			case ETanksGameCommonName.SMALL_WALL:
-				texturesContainer.children.splice(textureIndex, 1);
+				texturesContainer.children.splice(hitObjectIndex, 1);
 				bulletsContainer.children.splice(bulletArrIndex, 1);
 				break;
 			case ETanksGameCommonName.WALL:
 				bulletsContainer.children.splice(bulletArrIndex, 1);
 				break;
 			case ETanksGameCommonName.EAGLE:
-				texturesContainer.children.splice(textureIndex, 1);
+				texturesContainer.children.splice(hitObjectIndex, 1);
 				bulletsContainer.children.splice(bulletArrIndex, 1);
 				break;
 		}

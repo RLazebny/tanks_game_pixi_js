@@ -11,12 +11,16 @@ import {TanksGameStateMachineProxy} from "./proxy/TanksGameStateMachineProxy";
 
 export class TanksGameModel implements ITanksGameModel {
 	public onResourcesLoad: Signal = new Signal();
-	public onTankFired: Signal = new Signal();
+	public onTankAttack: Signal = new Signal();
+	public drawTanksSignal: Signal = new Signal();
+	public youWINSignal: Signal = new Signal();
  	public width: number = ETanksGameStaticValues.GAME_WIDTH;
  	public height: number = ETanksGameStaticValues.GAME_HEIGHT;
  	public deltaTime: number;
  	public timeCounter: number = 0;
  	public bulletData: TBulletData;
+ 	public drawnTanks: Array<string> = [];
+ 	public enemiesCounter: number = 10;
 	public stateMachine: TanksGameStateMachineProxy;
 	public loader: TanksGameLoaderProxy;
 	public soundProxy: TanksGameSoundProxy;

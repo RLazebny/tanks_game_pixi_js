@@ -1,3 +1,4 @@
+import {ETanksGameCommonName} from "../../enum/ETanksGameCommonName";
 import {ETanksGameStaticValues} from "../../enum/ETanksGameStaticValues";
 import {TanksGameBaseCommand} from "./TanksGameBaseCommand";
 import Sprite = PIXI.Sprite;
@@ -9,7 +10,8 @@ export class TanksGameAddBulletToSceneCommand extends TanksGameBaseCommand {
 	}
 
 	private addBulletToScene(): void {
-		const bullet = this.tanksLayer.drawBullet();
+		const bullet = this.model.bulletData.tankType === ETanksGameCommonName.USERS_TANK ?
+			this.tanksLayer.drawBullet() : this.tanksLayer.drawEnemyBullet();
 		bullet.name = `${this.model.bulletData.vector}`;
 		this.setBulletPosition(bullet);
 		this.tanksLayer.bulletsContainer.addChild(bullet);

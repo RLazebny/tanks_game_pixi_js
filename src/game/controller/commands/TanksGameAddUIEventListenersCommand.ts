@@ -44,9 +44,10 @@ export class TanksGameAddUIEventListenersCommand extends TanksGameBaseCommand {
 				// attack
 				this.model.bulletData = {
 					vector: this.tanksLayer.usersTank.angle,
-					tankCoord: this.tanksLayer.usersTank.position
+					tankCoord: this.tanksLayer.usersTank.position,
+					tankType: this.tanksLayer.usersTank.name
 				};
-				this.model.onTankFired.dispatch();
+				this.model.onTankAttack.dispatch();
 			}
 		};
 	}

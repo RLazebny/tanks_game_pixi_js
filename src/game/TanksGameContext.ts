@@ -5,6 +5,7 @@ import {State} from "../state_machine/State";
 import {TanksGameAddBulletToSceneCommand} from "./controller/commands/TanksGameAddBulletToSceneCommand";
 import {TanksGameAddUIEventListenersCommand} from "./controller/commands/TanksGameAddUIEventListenersCommand";
 import {TanksGameDrawStartScreenCommand} from "./controller/commands/TanksGameDrawStartScreenCommand";
+import {TanksGameDrawTankCommand} from "./controller/commands/TanksGameDrawTankCommand";
 import {TanksGameLoadBootSceneResourcesCommand} from "./controller/commands/TanksGameLoadBootSceneResourcesCommand";
 import {TanksGameLoadImgesCommand} from "./controller/commands/TanksGameLoadImgesCommand";
 import {TanksGameLoadSoundsCommand} from "./controller/commands/TanksGameLoadSoundsCommand";
@@ -55,6 +56,7 @@ export class TanksGameContext {
 				this._view.onAssetsLoaded();
 				this._controller.executeCommand(ETanksGameCommandName.ADD_MENU_UI_LISTENERS);
 				this._model.stateMachine.changeState(ETanksGameScenesName.MENU);
+				this._controller.executeCommand(ETanksGameCommandName.DRAW_TANKS);
 			}
 		});
 		this._model.loader.onLoaderInProgress.add((progress: number) => {
@@ -63,8 +65,14 @@ export class TanksGameContext {
 		this._model.stateMachine.onStateChanged.add(() => {
 			this._controller.executeCommand(ETanksGameCommandName.UPDATE_SCENE);
 		});
-		this._model.onTankFired.add(() => {
+		this._model.onTankAttack.add(() => {
 			this._controller.executeCommand(ETanksGameCommandName.ADD_BULLET_TO_SCENE);
+		});
+		this._model.drawTanksSignal.add(() => {
+			this._controller.executeCommand(ETanksGameCommandName.DRAW_TANKS);
+		});
+		this._model.youWINSignal.add(() => {
+			alert(" YOU WIN ");
 		});
 	}
 	
@@ -101,6 +109,7 @@ export class TanksGameContext {
 		this._controller.registerCommand(ETanksGameCommandName.ADD_MENU_UI_LISTENERS, TanksGameAddUIEventListenersCommand);
 		this._controller.registerCommand(ETanksGameCommandName.FRAME_UPDATE, TanksGameUpdateFrameCommand);
 		this._controller.registerCommand(ETanksGameCommandName.ADD_BULLET_TO_SCENE, TanksGameAddBulletToSceneCommand);
+		this._controller.registerCommand(ETanksGameCommandName.DRAW_TANKS, TanksGameDrawTankCommand);
 	}
 
 	private registerStates(): void {
